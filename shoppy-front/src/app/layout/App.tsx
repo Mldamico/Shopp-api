@@ -1,4 +1,3 @@
-import Catalog from "../../features/catalog/Catalog";
 import {
   Container,
   CssBaseline,
@@ -6,11 +5,12 @@ import {
   createTheme,
 } from "@mui/material";
 import Header from "./Header";
-import { useState } from "react";
+
 import { Outlet } from "react-router-dom";
+import { useLocalStorageState } from "../../hooks/useLocalStorageState";
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useLocalStorageState(true, "darkmode");
   const paletteType = darkMode ? "dark" : "light";
   const theme = createTheme({
     palette: {
