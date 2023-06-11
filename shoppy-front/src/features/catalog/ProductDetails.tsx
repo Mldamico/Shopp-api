@@ -11,28 +11,30 @@ import {
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Product } from "../../app/models/product";
-import axios from "axios";
+import agent from "../../app/api/agent";
+import NotFound from "../../app/errors/NotFound";
+import Loading from "../../app/layout/Loading";
 
 const ProductDetails = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const { id } = useParams<{ id: string }>();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/products/${id}`)
-      .then((response) => {
-        setProduct(response.data);
-      })
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
+    id &&
+      agent.Catalog.details(parseInt(id))
+        .then((response) => {
+          setProduct(response);
+        })
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
   }, [id]);
 
   if (loading) {
-    return <h3>Loading...</h3>;
+    return <Loading message="Loading product..." />;
   }
 
   if (!product) {
-    return <h3>Product not found</h3>;
+    return <NotFound />;
   }
   return (
     <Grid container spacing={6}>
