@@ -13,7 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import { NavLink, Link } from "react-router-dom";
-import { useStoreContext } from "../context/StoreContext";
+import { useAppSelector } from "../store/configureStore";
 
 const midLinks = [
   { title: "catalog", path: "/catalog" },
@@ -43,7 +43,7 @@ interface IHeaderProps {
   setDarkMode: () => void;
 }
 const Header = ({ darkMode, setDarkMode }: IHeaderProps) => {
-  const { basket } = useStoreContext();
+  const { basket } = useAppSelector((state) => state.basket);
 
   const itemCount = basket?.items.reduce((sum, item) => sum + item.quantity, 0);
 

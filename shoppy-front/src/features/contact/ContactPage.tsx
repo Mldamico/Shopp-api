@@ -1,7 +1,9 @@
-import { Typography } from "@mui/material";
+import { useEffect } from "react";
 
 const ContactPage = () => {
-  return <Typography variant="h2">ContactPage</Typography>;
+  useEffect(() => {}, []);
+
+  return <></>;
 };
 
 export default ContactPage;
