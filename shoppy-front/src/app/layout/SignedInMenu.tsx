@@ -2,6 +2,7 @@ import { Button, Fade, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { useAppDispatch, useAppSelector } from "../store/configureStore";
 import { signOut } from "../../features/account/accountSlice";
+import { clearBasket } from "../../features/basket/basketSlice";
 
 const SignedInMenu = () => {
   const dispatch = useAppDispatch();
@@ -13,6 +14,11 @@ const SignedInMenu = () => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const onLogout = () => {
+    dispatch(signOut());
+    dispatch(clearBasket());
   };
 
   return (
@@ -28,7 +34,7 @@ const SignedInMenu = () => {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My orders</MenuItem>
-        <MenuItem onClick={() => dispatch(signOut())}>Logout</MenuItem>
+        <MenuItem onClick={onLogout}>Logout</MenuItem>
       </Menu>
     </>
   );
