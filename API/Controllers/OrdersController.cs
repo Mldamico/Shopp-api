@@ -85,8 +85,8 @@ public class OrdersController : BaseApiController
         _context.Baskets.Remove(basket);
         if (createOrderDto.SaveAddress)
         {
-            var user =await _context.Users.FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
-            user.Address = new UserAddress
+            var user =await _context.Users.Include(a => a.Address).FirstOrDefaultAsync(x => x.UserName == User.Identity.Name);
+            var address = new UserAddress
             {
                 FullName = createOrderDto.ShippingAddress.FullName,
                 Address1 = createOrderDto.ShippingAddress.Address1,
@@ -96,7 +96,8 @@ public class OrdersController : BaseApiController
                 Zip = createOrderDto.ShippingAddress.Zip,
                 Country = createOrderDto.ShippingAddress.Country,
             };
-            _context.Update(user);
+            user.Address = address;
+            // _context.Update(user);
         }
 
         var result = await _context.SaveChangesAsync() > 0;
