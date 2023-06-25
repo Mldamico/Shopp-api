@@ -59,7 +59,7 @@ export default function CheckoutPage() {
 
   const handleNext = async (data: FieldValues) => {
     const { nameOnCard, saveAddress, ...shippingAddress } = data;
-
+    console.log(data);
     if (activeStep === steps.length - 1) {
       setLoading(true);
       try {

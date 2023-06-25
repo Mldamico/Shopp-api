@@ -23,17 +23,17 @@ export default function PaymentForm() {
             control={control}
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} id="cardNumber">
           <TextField
             // required
-            id="cardNumber"
+            // id="cardNumber"
             label="Card number"
             fullWidth
             autoComplete="cc-number"
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} id="expirationDate">
           <TextField
             // required
             id="expDate"
@@ -43,7 +43,7 @@ export default function PaymentForm() {
             variant="standard"
           />
         </Grid>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} md={6} id="securityCode">
           <TextField
             // required
             id="cvv"

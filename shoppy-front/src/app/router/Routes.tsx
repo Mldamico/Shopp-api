@@ -1,6 +1,5 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
 import App from "../layout/App";
-import HomePage from "../../features/home/HomePage";
 import Catalog from "../../features/catalog/Catalog";
 import ProductDetails from "../../features/catalog/ProductDetails";
 import AboutPage from "../../features/about/AboutPage";
@@ -14,6 +13,7 @@ import Login from "../../features/account/Login";
 import Register from "../../features/account/Register";
 import RequireAuth from "./RequireAuth";
 import Orders from "../../features/orders/Orders";
+import Inventory from "../../features/admin/Inventory";
 
 export const router = createBrowserRouter([
   {
@@ -31,11 +31,11 @@ export const router = createBrowserRouter([
             path: "orders",
             element: <Orders />,
           },
+          {
+            path: "inventory",
+            element: <Inventory />,
+          },
         ],
-      },
-      {
-        path: "",
-        element: <HomePage />,
       },
       {
         path: "catalog",
