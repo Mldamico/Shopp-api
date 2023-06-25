@@ -1,8 +1,11 @@
 using System.Text.Json;
 using API.Data;
+using API.DTOs;
 using API.Entities;
 using API.Extensions;
 using API.RequestHelpers;
+using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,10 +14,12 @@ namespace API.Controllers;
 public class ProductsController : BaseApiController
 {
     private readonly StoreContext _context;
+    private readonly IMapper _mapper;
 
-    public ProductsController(StoreContext context)
+    public ProductsController(StoreContext context, IMapper mapper)
     {
         _context = context;
+        _mapper = mapper;
     }
 
     [HttpGet]
@@ -32,7 +37,7 @@ public class ProductsController : BaseApiController
       return products;
     }
 
-    [HttpGet("{id}")]
+    [HttpGet("{id}", Name = "GetProduct")]
     public async  Task<ActionResult<Product>> GetProductById(int id)
     {
         var product = await _context.Products.FindAsync(id);
@@ -51,5 +56,37 @@ public class ProductsController : BaseApiController
         var types = await _context.Products.Select(p => p.Type).Distinct().ToListAsync();
 
         return Ok(new {brands, types});
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPost]
+    public async Task<ActionResult<Product>> CreateProduct(CreateProductDto productDto)
+    {
+        var product = _mapper.Map<Product>(productDto);
+        _context.Products.Add(product);
+        var result = await _context.SaveChangesAsync() > 0;
+
+        if (result) return CreatedAtRoute("GetProduct", new { Id = product.Id}, product);
+
+        return BadRequest(new ProblemDetails {Title = "Problem creating new product"});
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut]
+    public async Task<ActionResult> UpdateProduct(UpdateProductDto productDto)
+    {
+        var product = await _context.Products.FindAsync(productDto.Id);
+        if (product == null)
+        {
+            return NotFound();
+        }
+
+        _mapper.Map(productDto, product);
+
+        var result = await _context.SaveChangesAsync() > 0;
+
+        if (result) return NoContent();
+
+        return BadRequest(new ProblemDetails{Title = "Problem updating product"});
     }
 }

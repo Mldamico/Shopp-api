@@ -7,5 +7,8 @@ public class BasketDto
     public string BuyerId { get; set; }
 
     public List<BasketItemDto> Items { get; set; }
+    
+    public long? PaymentIntentId { get; set; }
+
 }
 
