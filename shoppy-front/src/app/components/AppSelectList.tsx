@@ -5,7 +5,6 @@ import {
   MenuItem,
   FormHelperText,
 } from "@mui/material";
-import { useState } from "react";
 import { UseControllerProps, useController } from "react-hook-form";
 
 interface AppSelectListProps extends UseControllerProps {

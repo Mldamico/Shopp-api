@@ -87,6 +87,9 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection(); This is good for production
 
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseCors(opt =>
 {
     opt.AllowAnyHeader().AllowAnyMethod().AllowCredentials().WithOrigins("http://localhost:5173");
@@ -95,7 +98,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.MapFallbackToController("Index", "Fallback");
 
 //Get scope for the dbcontext
 var scope = app.Services.CreateScope();
