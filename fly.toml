@@ -8,6 +8,8 @@ primary_region = "eze"
 
 [env]
   ASPNETCORE_URLS="http://+:8080"
+  Cloudinary__CloudName="arecyus"
+  Cloudinary__ApiKey="859891146771898"
 
 [build]
   image = "arecyus/shoppy:latest"
